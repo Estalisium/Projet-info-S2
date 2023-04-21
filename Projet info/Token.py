@@ -11,19 +11,20 @@ class Token():
         self.statut += 1
 
 
-class Traque(Token):
+class TraqueToken(Token):
     def __init__(self, max = 8):
         super().__init__(max)
         self.type = 'Traque'
 
 
-class Secour(Token):
+class SecoursToken(Token):
     def __init__(self, max = 13):
         super().__init__(max)
-        self.type = 'Secour'
+        self.type = 'Secours'
+
 
 if __name__ == '__main__':
-    test = Traque()
+    test = TraqueToken()
     print(test)
     test.avancer()
     print(test)
