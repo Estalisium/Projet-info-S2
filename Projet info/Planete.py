@@ -39,8 +39,41 @@ class Deck(ABC):
 
 
 class Carte(ABC):
-    def __init__(self, c_id):
+    def __init__(self, c_id, phase, type):
         self.c_id = c_id
+        self.type = type
+        self.phase = phase
+
+    @abstractmethod
+    def effet(self, joueur):
+        ...
+
+
+class detecteur(Carte):
+    def effet(self, joueur):
+        if joueur.jeu.board[joueur.pos][2] == 2:
+            joueur.esquive = 1
+            joueur.useCard -= 1
+        else:
+            print("Votre lieu n'est pas ciblé par le jeton artémia, cette carte ne peut être jouée")
+
+
+class esquive(Carte):
+    """
+    esquive les effets du jeton créature
+    """
+    def effet(self, joueur):
+        if joueur.jeu.board[joueur.pos][2] == 1:
+            joueur.esquive = 1
+            joueur.useCard -= 1
+        else:
+            print("Votre lieu n'est pas ciblé par le jeton créature, cette carte ne peut être jouée")
+
+
+class volteFace(Carte):
+    def effet(self, joueur):
+        joueur.esquive = 1
+
 
 if __name__ == '__main__':
     test = Deck('survie')
