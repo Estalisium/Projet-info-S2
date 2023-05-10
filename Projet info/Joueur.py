@@ -15,19 +15,25 @@ class Joueur():
         self.cartes = [0, 1, 2, 3, 4]
         self.survie = []
         self.useCard = 1
+        self.River = False
+        self.posRiver = None
         self.defausse = []
         self.esquive = 0
+        self.Marungle = False
 
     def __str__(self):
         return 'Joueur ' + str(self.id) + ' : ' + self.nom
 
-    def lacher_prise(self):
-        print(self, 'lache prise')
-        self.sante = 3
+    def reprendre_toute_defausse(self):
         for carte in self.defausse:
             self.cartes.append(carte)
             self.cartes.sort()
         self.defausse = []
+
+    def lacher_prise(self):
+        print(self, 'lache prise')
+        self.sante = 3
+        self.reprendre_toute_defausse()
         self.jeu.traque.avancer()
 
     def __repr__(self):
@@ -40,7 +46,7 @@ class Joueur():
         print("Vos lieux en main sont : ", self.cartes)
         val = -1
         while val < 0:
-            msg = f"Votre choix de lieu parmi ceux disponible ?\n"
+            msg = f"Votre choix de lieu parmi ceux disponible ?\n >> "
             val = int(input(msg))
             if val in self.cartes:
                 self.jeu.board.placer_joueur(val)
@@ -48,9 +54,24 @@ class Joueur():
             else:
                 print("Cette carte n'est pas dans votre main veuillez choisir un autre lieu")
                 val = -1
-
-    def activerLieu(self):
-        return 1
+        if self.River:
+            carteRiver = self.cartes.copy()
+            carteRiver.remove(self.pos)
+            print("La rivière est active, veuillez choisir un deuxième Lieu")
+            if len(self.cartes) == 0:
+                print("Vous n'avez plus de cartes en main et devez donc lacher prise")
+                self.lacher_prise()
+            print("Vos lieux en main sont : ", carteRiver)
+            val = -1
+            while val < 0:
+                msg = f"Votre choix de lieu parmi ceux disponible ?\n >> "
+                val = int(input(msg))
+                if val in self.cartes:
+                    self.jeu.board.placer_joueur(val)
+                    self.posRiver = val
+                else:
+                    print("Cette carte n'est pas dans votre main veuillez choisir un autre lieu")
+                    val = -1
 
     def reprendreDefausse(self):
         print("Vos lieux défaussés sont : ", self.defausse)
@@ -59,7 +80,7 @@ class Joueur():
             return 1
         val = -1
         while val < 0:
-            msg = f"Lequel voulez vous reprendre en main?\n"
+            msg = f"Lequel voulez vous reprendre en main?\n >> "
             val = int(input(msg))
             if val in self.defausse:
                 self.defausse.remove(val)
@@ -72,7 +93,8 @@ class Joueur():
     def creature(self):
         if self.esquive == 1:
             self.esquive = 0
-            return "Jeton créature évité"
+            print("Jeton créature évité")
+            return 1
         else:
             if self.pos == 0:
                 self.sante -= 2
@@ -87,7 +109,8 @@ class Joueur():
     def artemia(self):
         if self.esquive == 1:
             self.esquive = 0
-            return "Jeton artemia évité"
+            print("Jeton artemia évité")
+            return 1
         else:
             self.defausseCarte(1)
             self.defausseCarte(1)
@@ -108,7 +131,7 @@ class Joueur():
             print("Vos lieux en main sont : ", self.defausse)
             val = -1
             while val < 0:
-                msg = f"Lequel voulez vous défausser?\n"
+                msg = f"Lequel voulez vous défausser?\n >> "
                 val = int(input(msg))
                 if val in self.cartes:
                     self.cartes.remove(val)
@@ -127,6 +150,8 @@ class Creature():
         self.traque = []
         self.jeu = jeu
         self.eat = 0
+        self.artemia = None
+        self.pos = None
 
     def CaraJeton(self, jeton):
         if jeton == 1:
@@ -144,9 +169,13 @@ class Creature():
                 print('Voici la défausse des joueurs')
                 for player in self.jeu.players:
                     print(player, player.defausse)
-                msg = f"Où voulez vous le placer ?\n"
+                msg = f"Où voulez vous le placer ?\n >> "
                 val = int(input(msg))
                 if -1 < val < 9:
+                    if jeton == 1:
+                        self.pos = val
+                    if jeton == 2:
+                        self.artemia = val
                     self.jeu.board.placer_creature(val, jeton)
                 else:
                     print('Veuillez saisir un lieu valide')
