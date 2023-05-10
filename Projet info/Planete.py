@@ -181,7 +181,10 @@ class Hologramme(Carte):
         super().__init__(self, c_id, phase)
         self.phase = 3
     def effet(self, joueur):
-        
+        if len(Creature.jetons)>2 and Creature.jetons[1]==2: 
+            
+        else: 
+            print("Le jeton Artémia n'est pas sur le plateau, vous ne pouvez pas jouer cette carte")
             
             
 if __name__ == '__main__':
