@@ -93,10 +93,8 @@ class VolteFace(Carte):
         super().__init__(self, c_id, phase)
         self.phase = 4
     def effet(self, joueur):
-        joueur.esquive = 1
         joueur.useCard -= 1
-        joueur.cartes.append(joueur.defausse[-1])
-        joueur.cartes.sort()
+        joueur.esquive = 1
         
 class Drone(Carte):
     """
@@ -114,7 +112,6 @@ class Drone(Carte):
             msg = f"Quel lieu voulez vous rajouter à votre main ?\n"
             cartesup = int(input(msg))
             joueur.cartes.append(cartesup)
-            joueur.cartes.sort()
             
 class Adrenaline(Carte): 
     """
@@ -133,7 +130,7 @@ class Amplificateur(Carte):
     def __init__(self, c_id, phase):
         super().__init__(self, c_id, phase)
         self.phase = 4
-        def effet(self, joueur):
+    def effet(self, joueur):
             #bla bla bla
 
 class SystemeD(Carte):
@@ -143,8 +140,28 @@ class SystemeD(Carte):
     def __init__(self, c_id, phase):
         super().__init__(self, c_id, phase)
         self.phase = 1
-        def effet(self, joueur):
+    def effet(self, joueur):
             #bla bla bla
+
+class Riposte(Carte): 
+    """
+    Tire 2 cartes Traque au hasard de la main de la Créature et les place sous la pioche Traque 
+    """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 1 
+    def effet(self, joueur):
+        shuffle(Creature.traque)
+        c0 = Creature.traque[0]
+        c1 = Creature.traque[1]
+        Creature.traque =[Creature.traque[2]] 
+        #Placer sous la pioche les 2 cartes 
+            
+class Sixième sens(Carte):
+    """
+    Reprend en main 2 cartes Lieu de la défausse
+    """
+  
             
 if __name__ == '__main__':
     test = Deck('survie')
