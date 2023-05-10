@@ -5,7 +5,7 @@ import Planete
 
 class Plateau(list):
     """
-    Reprprésente le plateau de jeu
+    Représente le plateau de jeu
     Gère la correspondance entre la position du joueur et la carte lieu associée
     """
     marqueur_vide = 0
@@ -62,7 +62,28 @@ class Plateau(list):
             self[i][1] = Plateau.marqueur_vide
             self[i][2] = Plateau.marqueur_vide
 
-
+    def voisin(self, lieu):
+        if lieu == 0:
+            return [1, 5]
+        if lieu == 1: 
+            return [0, 2, 6]
+        if lieu == 2: 
+            return [1, 3, 7]
+        if lieu == 3: 
+            return [2, 4, 8]
+        if lieu == 4:
+            return [3, 9]
+        if lieu == 5: 
+            return [0, 6]
+        if lieu == 6: 
+            return [1, 5, 7]
+        if lieu == 7: 
+            return [2, 6, 8]
+        if lieu == 8: 
+            return [3, 7, 9]
+        if lieu == 9: 
+            return [4, 8]
+        
 if __name__ == '__main__':
     test = Plateau((10, 3))
     print(test)
