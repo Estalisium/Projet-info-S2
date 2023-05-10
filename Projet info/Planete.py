@@ -161,7 +161,28 @@ class Sixième sens(Carte):
     """
     Reprend en main 2 cartes Lieu de la défausse
     """
-  
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 1   
+    def effet(self, joueur):
+         print("Vous pouvez reprendre dans votre main 2 lieux de la défausse :", joueur.defausse)
+         msg = f"Choississez un premier lieu\n"
+         cartesup = int(input(msg))
+         joueur.cartes.append(cartesup)
+         msg = f"Choississez un deuxième lieu\n"
+         cartesup = int(input(msg))
+         joueur.cartes.append(cartesup)           
+
+class Hologramme(Carte):
+    """
+    Déplacez le jeton Artémia sur un lieu adjacent
+    """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 3
+    def effet(self, joueur):
+        
+            
             
 if __name__ == '__main__':
     test = Deck('survie')
