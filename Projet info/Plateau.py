@@ -37,7 +37,6 @@ class Plateau(list):
                 pos = Planete.Artefact()
             self.append([])
             self[i] = [i, Plateau.marqueur_vide, Plateau.marqueur_vide, pos]
-            print(self)
 
     def placer_joueur(self, pos):
         if pos > 9 or pos < 0:
