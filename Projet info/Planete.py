@@ -39,9 +39,8 @@ class Deck(ABC):
 
 
 class Carte(ABC):
-    def __init__(self, c_id, phase, type):
+    def __init__(self, c_id, phase):
         self.c_id = c_id
-        self.type = type
         self.phase = phase
 
     @abstractmethod
@@ -50,6 +49,12 @@ class Carte(ABC):
 
 
 class detecteur(Carte):
+    """
+    Evite les effets du jeton Artémia
+    """
+        def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 3
     def effet(self, joueur):
         if joueur.jeu.board[joueur.pos][2] == 2:
             joueur.esquive = 1
@@ -62,6 +67,9 @@ class esquive(Carte):
     """
     Esquive les effets du jeton créature
     """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 3
     def effet(self, joueur):
         if joueur.jeu.board[joueur.pos][2] == 1:
             joueur.esquive = 1
@@ -84,6 +92,7 @@ class drone(Carte):
     """
     A la place d'utiliser le pouvoir de la carte Lieu, copie le pouvoir du Rover
     """
+    
     def effet(self, joueur): 
             lieuxsup = []
             for i in range(5, 10): 
@@ -92,6 +101,8 @@ class drone(Carte):
             print("Vous pouvez rajouter dans votre main 1 lieu parmis ceux-ci:", lieuxsup)
             msg = f"Quel lieu voulez vous rajouter à votre main ?\n"
             cartesup = int(input(msg))
+            joueur.cartes.append(cartesup)
+            joueur.cartes.sort()
             
             
         
