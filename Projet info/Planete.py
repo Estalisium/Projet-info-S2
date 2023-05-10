@@ -60,7 +60,7 @@ class detecteur(Carte):
 
 class esquive(Carte):
     """
-    esquive les effets du jeton créature
+    Esquive les effets du jeton créature
     """
     def effet(self, joueur):
         if joueur.jeu.board[joueur.pos][2] == 1:
@@ -71,10 +71,31 @@ class esquive(Carte):
 
 
 class volteFace(Carte):
+    """
+    Reprend en main la dernière carte Lieu jouée
+    """
     def effet(self, joueur):
         joueur.esquive = 1
-
-
+        joueur.useCard -= 1
+        joueur.cartes.append(joueur.defausse[-1])
+        joueur.cartes.sort()
+        
+class drone(Carte):
+    """
+    A la place d'utiliser le pouvoir de la carte Lieu, copie le pouvoir du Rover
+    """
+    def effet(self, joueur): 
+            lieuxsup = []
+            for i in range(5, 10): 
+                if i not in joueur.cartes and i not in joueur.defausse: 
+                    lieuxsup.append(i)
+            print("Vous pouvez rajouter dans votre main 1 lieu parmis ceux-ci:", lieuxsup)
+            msg = f"Quel lieu voulez vous rajouter à votre main ?\n"
+            cartesup = int(input(msg))
+            
+            
+        
+            
 if __name__ == '__main__':
     test = Deck('survie')
     print(test.cards)
