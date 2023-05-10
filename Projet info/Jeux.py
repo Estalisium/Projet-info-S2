@@ -61,9 +61,11 @@ class Jeux():
         Boucle principale du jeu, continue jusqu'à ce qu'une condition de victoire soit atteinte (fin = 1)
         """
         while self.fin == 0:
+            self.board[3][3].played = False
             self.creature.eat = 0
             self.creature.useCard = 1
             for joueur in self.players:
+                joueur.cartes.sort()
                 joueur.useCard = 1
             self.phase1()
             self.phase2()
@@ -75,8 +77,8 @@ class Jeux():
         """
         Choix du lieu pour chaque joueur
         """
-        print(self.players)
         for player in self.players:
+            print(player)
             player.choisir_lieu()
 
     def phase2(self):
@@ -89,7 +91,15 @@ class Jeux():
         """
         Résolution des lieux joueur par joueur
         """
+        print(f"Le jeton Créature se situe sur le lieu {self.creature.pos}")
         for player in self.players:
+            if player.River:
+                print(f"Vous avez jouez ces deux lieux : {player.pos}, {player.posRiver}")
+                msg = f"Lequel voulez vous activer?\n >> "
+                val = int(input(msg))
+                if val != player.pos:
+                    player.pos = player.posRiver
+                player.River = False
             crea = player.jeu.board[player.pos][2]
             if crea == 0:
                 self.board.activer_lieu(player, player.pos)
@@ -106,9 +116,9 @@ class Jeux():
             player.defausseCarte(0)
         self.secours.avancer()
         self.board.reset()
+        print("Fin du tour")
 
     def check_victory(self):
-        print(self.traque.statut)
         if self.traque.max == self.traque.statut:
             print(self.traque.statut)
             print('Victoire de la créature')
