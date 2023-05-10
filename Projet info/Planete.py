@@ -47,6 +47,13 @@ class Carte(ABC):
     def effet(self, joueur):
         ...
 
+"""
+
+
+CARTES SURVIE
+
+
+"""
 
 class Detecteur(Carte):
     """
@@ -119,7 +126,25 @@ class Adrenaline(Carte):
     def effet(self, joueur):
         joueur.sante += 1
         
- class Amplificateur(Carte)
+class Amplificateur(Carte):
+    """
+    Retire le pion Balise de la Plage pour avancer immédiatement le pion secours de 1 case 
+    """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 4
+        def effet(self, joueur):
+            #bla bla bla
+
+class SystemeD(Carte):
+    """
+    Place le pion Balise sur la place
+    """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 1
+        def effet(self, joueur):
+            #bla bla bla
             
 if __name__ == '__main__':
     test = Deck('survie')
