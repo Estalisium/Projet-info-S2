@@ -17,14 +17,14 @@ class Jeux():
         players : liste d'objets Joueur, représente la liste des joueurs
         board : objet Plateau, représente le plateau
         traque : objet TraqueToken, représente le jeton Traque
-        secour : objet SecourToken, représente le jeton Secour
+        secours : objet SecoursToken, représente le jeton Secours
         fin : 0 ou 1, 0 si aucune condition de victoire n'est atteinte, 1 si au moins une l'est
         """
         if nbjoueurs > 7 or nbjoueurs < 2 or nbjoueurs != len(nomjoueurs):
             raise ValueError
         crea = 0  # Permet de continuer la requête tant qu'une créature n'est pas choisie
         while crea == 0:
-            msg = f"Qui sera la créature ?\n"
+            msg = f"Qui sera la créature ?\n >> "
             val = str(input(msg))
             if val not in nomjoueurs:
                 print("Cette personne n'est pas dans la partie")
@@ -32,7 +32,7 @@ class Jeux():
                 if nomjoueurs[i] == val:
                     self.creature = Joueur.Creature(i, nomjoueurs[i], self)
                     crea = 1
-        self.board = Plateau.Plateau((10, 3))
+        self.board = Plateau.Plateau()
         self.players = []
         for i in range(nbjoueurs):
             if i != self.creature.id:
@@ -48,7 +48,7 @@ class Jeux():
         """
         val = -1
         while val != 0:
-            msg = f"Etes vous prêt ?\n Oui : 0, Quitter : 1\n"
+            msg = f"Etes vous prêt ?\n Oui : 0, Quitter : 1\n >> "
             val = int(input(msg))
             if val == 0:
                 self.loop()
@@ -77,8 +77,6 @@ class Jeux():
         """
         print(self.players)
         for player in self.players:
-            print(self.players)
-            print(player)
             player.choisir_lieu()
 
     def phase2(self):
@@ -94,12 +92,11 @@ class Jeux():
         for player in self.players:
             crea = player.jeu.board[player.pos][2]
             if crea == 0:
-                player.activerLieu()
+                self.board.activer_lieu(player, player.pos)
             elif crea == 1:
                 player.creature()
             elif crea == 2:
                 player.artemia()
-        return 3
 
     def phase4(self):
         """
@@ -123,8 +120,15 @@ class Jeux():
             self.exit()
 
     def exit(self):
-        print("Merci d'avoir jouer !")
+        print("Merci d'avoir jouer, à bientôt !")
 
 
-if __name__ == '__main__':
-    test = Jeux(3, ['mi', 'do', 'si'])
+if __name__ == "__main__":
+    print('------------------------------------------------')
+    print('|   Bienvenue sur le jeu Not Alone !   |')
+    print("------------------------------------------------\n")
+    nb_joueurs = int(input("A combien  voulez-vous jouer ?\n >> "))
+    names = []
+    for i in range(nb_joueurs):
+        names.append(input(f"Comment s'appelle le joueur {i} ?\n >> "))
+    Jeux(nb_joueurs, names)
