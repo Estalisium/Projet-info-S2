@@ -150,11 +150,11 @@ class Riposte(Carte):
     def __init__(self, c_id, phase):
         super().__init__(self, c_id, phase)
         self.phase = 1 
-    def effet(self, joueur):
-        shuffle(Creature.traque)
-        c0 = Creature.traque[0]
-        c1 = Creature.traque[1]
-        Creature.traque =[Creature.traque[2]] 
+    def effet(self, creature):
+        shuffle(creature.traque)
+        c0 = creature.traque[0]
+        c1 = creature.traque[1]
+        creature.traque =[creature.traque[2]] 
         #Placer sous la pioche les 2 cartes 
             
 class Sixième sens(Carte):
@@ -182,7 +182,7 @@ class Hologramme(Carte):
         self.phase = 3
     def effet(self, joueur):
         if len(Creature.jetons)>2 and Creature.jetons[1]==2: 
-            
+            joueur.jeu.
         else: 
             print("Le jeton Artémia n'est pas sur le plateau, vous ne pouvez pas jouer cette carte")
             
