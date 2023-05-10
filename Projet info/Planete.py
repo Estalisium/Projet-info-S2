@@ -48,11 +48,11 @@ class Carte(ABC):
         ...
 
 
-class detecteur(Carte):
+class Detecteur(Carte):
     """
     Evite les effets du jeton Artémia
     """
-        def __init__(self, c_id, phase):
+    def __init__(self, c_id, phase):
         super().__init__(self, c_id, phase)
         self.phase = 3
     def effet(self, joueur):
@@ -63,7 +63,7 @@ class detecteur(Carte):
             print("Votre lieu n'est pas ciblé par le jeton artémia, cette carte ne peut être jouée")
 
 
-class esquive(Carte):
+class Esquive(Carte):
     """
     Esquive les effets du jeton créature
     """
@@ -78,21 +78,26 @@ class esquive(Carte):
             print("Votre lieu n'est pas ciblé par le jeton créature, cette carte ne peut être jouée")
 
 
-class volteFace(Carte):
+class VolteFace(Carte):
     """
     Reprend en main la dernière carte Lieu jouée
     """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 4
     def effet(self, joueur):
         joueur.esquive = 1
         joueur.useCard -= 1
         joueur.cartes.append(joueur.defausse[-1])
         joueur.cartes.sort()
         
-class drone(Carte):
+class Drone(Carte):
     """
     A la place d'utiliser le pouvoir de la carte Lieu, copie le pouvoir du Rover
     """
-    
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 3
     def effet(self, joueur): 
             lieuxsup = []
             for i in range(5, 10): 
@@ -104,8 +109,17 @@ class drone(Carte):
             joueur.cartes.append(cartesup)
             joueur.cartes.sort()
             
-            
+class Adrenaline(Carte): 
+    """
+    Récupère 1 de volonté
+    """
+    def __init__(self, c_id, phase):
+        super().__init__(self, c_id, phase)
+        self.phase = 1
+    def effet(self, joueur):
+        joueur.sante += 1
         
+ class Amplificateur(Carte)
             
 if __name__ == '__main__':
     test = Deck('survie')
