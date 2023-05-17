@@ -182,11 +182,18 @@ class Hologramme(Carte):
         self.phase = 3
     def effet(self, joueur):
         if len(Creature.jetons)>2 and Creature.jetons[1]==2: 
-            joueur.jeu.
+            voisins = joueur.jeu.board.voisin(board, Creature.artemia)
+            print("Vous pouvez déplacer le jeton Artémia sur un de ces lieux:", voisins)
+            msg=f"Sur quel lieu voulez-vous le mettre ?\n"
+            Creature.artemia = int(input(msg))
+            joueur.useCard -= 1
+            joueur.esquive = 1
         else: 
             print("Le jeton Artémia n'est pas sur le plateau, vous ne pouvez pas jouer cette carte")
-            
-            
+       
+class Portail(Carte):
+    
+    
 if __name__ == '__main__':
     test = Deck('survie')
     print(test.cards)
