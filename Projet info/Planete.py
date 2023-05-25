@@ -157,7 +157,7 @@ class Riposte(Carte):
         creature.traque =[creature.traque[2]] 
         #Placer sous la pioche les 2 cartes 
             
-class Sixième sens(Carte):
+class SixièmeSens(Carte):
     """
     Reprend en main 2 cartes Lieu de la défausse
     """
