@@ -110,6 +110,13 @@ class Jeux():
                 player.River = False
             if player.Artefact:
                 print(f"Vous avez jouez ces deux lieux : {player.pos}, {player.posRiver}")
+                crea = player.jeu.board[player.posRiver][2]
+                if crea == 0:
+                    self.board.activer_lieu(player, player.posRiver)
+                elif crea == 1:
+                    player.creature()
+                elif crea == 2:
+                    player.artemia()
             crea = player.jeu.board[player.pos][2]
             if crea == 0:
                 self.board.activer_lieu(player, player.pos)
