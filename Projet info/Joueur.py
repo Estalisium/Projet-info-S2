@@ -12,14 +12,27 @@ class Joueur():
         self.nom = nom
         self.sante = 3
         self.pos = None
-        self.cartes = [0, 1, 2, 3, 4]
+        self.cartes = [0,1,2,3,4]
         self.survie = []
         self.useCard = 1
         self.River = False
+        self.Artefact = False
+        self.posArtefact = None
         self.posRiver = None
         self.defausse = []
         self.esquive = 0
-        self.Marungle = False
+
+    def pick(self):
+        self.survie.append(self.jeu.DeckSurvie.draw())
+
+    def jouerCarte(self, phase):
+        if self.useCard > 0:
+            for carte in self.survie:
+                if carte.phase == phase:
+                    msg = f"Voulez vous jouer la carte {carte}?\n{carte.description()}\nOui : 0, Non : 1\n>> "
+                    val = int(input(msg))
+                    if val == 0:
+                        carte.effet(self)
 
     def __str__(self):
         return 'Joueur ' + str(self.id) + ' : ' + self.nom
@@ -54,7 +67,7 @@ class Joueur():
             else:
                 print("Cette carte n'est pas dans votre main veuillez choisir un autre lieu")
                 val = -1
-        if self.River:
+        if self.River or self.Artefact:
             carteRiver = self.cartes.copy()
             carteRiver.remove(self.pos)
             print("La rivière est active, veuillez choisir un deuxième Lieu")
