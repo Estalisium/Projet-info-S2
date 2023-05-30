@@ -74,6 +74,18 @@ class Carte(ABC):
     def description(self):
         ...
 
+        
+'''''''''''''''''''''''
+
+
+
+
+CARTES SURVIE 
+
+
+
+
+'''''''''''''''''''''''
 
 class Detecteur(Carte):
     """
@@ -301,8 +313,7 @@ class SixiemeSens(Carte):
 class Hologramme(Carte):
     """
     Déplacez le jeton Artémia sur un lieu adjacent
-    """
-
+    """    
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
         self.phase = 3
@@ -326,7 +337,21 @@ class Hologramme(Carte):
     def description(self):
         return "Elle permet de déplacer le jeton Artémia sur un lieu adjacent"
 
+class Portail(Carte):
+    def __init__(self, c_id, phase):
+        super().__init__(c_id, phase)
+        self.phase = 3
 
+    def __repr__(self):
+        return "Portail"
+    
+    def effet(self, joueur):
+        fdfkm
+
+    def description(self):
+        return "Elle permet de copier le pouvoir d'un lieu adjacent"
+    
+    
 class Lieu():
     """
     Classe regroupant tous les lieux
