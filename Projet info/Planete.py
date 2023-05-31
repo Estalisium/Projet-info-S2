@@ -98,9 +98,8 @@ class Carte(ABC):
 
 class Detecteur(Carte):
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 3
+    def __init__(self, c_id):
+        super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Detecteur"
@@ -120,9 +119,8 @@ class Detecteur(Carte):
 
 class Esquive(Carte):
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 3
+    def __init__(self, c_id):
+        super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Esquive"
@@ -142,9 +140,8 @@ class Esquive(Carte):
 
 class VolteFace(Carte):
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 4
+    def __init__(self, c_id):
+        super().__init__(c_id, 4)
 
     def __repr__(self):
         return "Volte Face"
@@ -161,9 +158,8 @@ class VolteFace(Carte):
 
 class Drone(Carte):
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 3
+    def __init__(self, c_id):
+        super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Drone"
@@ -187,9 +183,8 @@ class Drone(Carte):
 
 class Adrenaline(Carte):
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 1
+    def __init__(self, c_id):
+        super().__init__(c_id, 1)
 
     def __repr__(self):
         return "Adrénaline"
@@ -206,9 +201,8 @@ class Adrenaline(Carte):
 
 class Amplificateur(Carte):
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 4
+    def __init__(self, c_id):
+        super().__init__(c_id, 4)
 
     def __repr__(self):
         return "Amplificateur"
@@ -232,9 +226,8 @@ class SystemeD(Carte):
     Place le pion Balise sur la place
     """
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 1
+    def __init__(self, c_id):
+        super().__init__(c_id, 1)
 
     def __repr__(self):
         return "SystemeD"
@@ -258,9 +251,8 @@ class Riposte(Carte):
     Tire 2 cartes Traque au hasard de la main de la Créature et les place sous la pioche Traque
     """
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 1
+    def __init__(self, c_id):
+        super().__init__(c_id, 1)
 
     def __repr__(self):
         return "Riposte"
@@ -284,9 +276,8 @@ class SixiemeSens(Carte):
     Reprend en main 2 cartes Lieu de la défausse
     """
 
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 1
+    def __init__(self, c_id):
+        super().__init__(c_id, 1)
 
     def __repr__(self):
         return "Sixième Sens"
@@ -306,10 +297,9 @@ class Hologramme(Carte):
     """
     Déplacez le jeton Artémia sur un lieu adjacent
     """    
-    def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 3
-
+    def __init__(self, c_id):
+        super().__init__(c_id, 3)
+    
     def __repr__(self):
         return "Hologramme"
 
@@ -332,7 +322,7 @@ class Hologramme(Carte):
     
 class Portail(Carte):
     
-    def __init__(self, c_id, phase):
+    def __init__(self, c_id):
         super().__init__(c_id, 3)
 
     def __repr__(self):
@@ -357,7 +347,7 @@ class Portail(Carte):
         
   
 class Fausse_Piste(Carte):
-    def __init__(self, c_id, phase):
+    def __init__(self, c_id):
     super().__init__(c_id, 3)
 
     def __repr__(self):
@@ -379,7 +369,7 @@ class Fausse_Piste(Carte):
     
 class Vortex(Carte): 
     
-    def __init__(self, c_id, phase):
+    def __init__(self, c_id):
     super().__init__(c_id, 2)
 
     def __repr__(self):
@@ -404,7 +394,7 @@ class Vortex(Carte):
       
 class Sacrifice(Carte): 
     
-    def __init__(self, c_id, phase):
+    def __init__(self, c_id):
         super().__init__(c_id, 1)
 
     def __repr__(self):
@@ -417,6 +407,37 @@ class Sacrifice(Carte):
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1                
         
+    
+ 
+
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+
+
+
+
+
+         CARTES TRAQUE 
+
+
+
+
+
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+
+    
+    
+class Virus(Carte): 
+    
+    def __init__(self, c_id, phase):
+        super().__init__(c_id, 2)
+        
+    def effet(self, joueur): 
+        
+    
     
     
     
