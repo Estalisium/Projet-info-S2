@@ -307,7 +307,7 @@ class Hologramme(Carte):
         if len(joueur.jeu.creature.jetons) > 2 and joueur.jeu.creature.jetons[1] == 2:
             joueur.cartes.remove(self)
             joueur.jeu.DeckSurvie.defausser(self)
-            voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.creature.artemia)
+            voisins = joueur.jeu.voisin(joueur.jeu.creature.artemia)
             print("Vous pouvez déplacer le jeton Artémia sur un de ces lieux:", voisins)
             msg = f"Sur quel lieu voulez-vous le mettre ? >>\n"
             joueur.jeu.artemia = int(input(msg))
@@ -332,7 +332,7 @@ class Portail(Carte):
         joueur.cartes.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1
-        voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.artemia)
+        voisins = joueur.jeu.voisin(joueur.jeu.board, joueur.pos)
         voisins_libre = []
         for i in range(len(voisins)): 
             if joueur.jeu.board[joueur.pos][2] == 0: 
@@ -356,7 +356,7 @@ class Fausse_Piste(Carte):
     def effet(self, joueur):
         joueur.cartes.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
-        voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.creature)
+        voisins = joueur.jeu.board.voisin(joueur.jeu.creature)
         print("Vous pouvez déplacer le jeton Créature sur un de ces lieux:", voisins)
         msg = f"Sur quel lieu voulez-vous le mettre ? >>\n"
         joueur.jeu.creature = int(input(msg))
@@ -432,9 +432,13 @@ class Sacrifice(Carte):
     
 class Virus(Carte): 
     
-    def __init__(self, c_id, phase):
+    def __init__(self, c_id):
         super().__init__(c_id, 2)
         
+    
+    def __repr__(self):
+        return "Virus"
+    
     def effet(self, joueur, creature): 
         msg = f"Placer le jeton Artémia : >>\n"
         creature.artemia = int(input(msg))
@@ -442,11 +446,27 @@ class Virus(Carte):
     
  class Hurlements(Carte):
     
-     def __init__(self, c_id, phase):
+     def __init__(self, c_id):
         super().__init__(c_id, 2)
         
-        
+     
+    def __repr__(self):
+        return "Hurlements"
+    
      def effet(self, joueur): 
+        
+        
+        
+class Desespoir(Carte):
+    
+    def __init__(self, c_id):
+        super().__init__(c_id, 1)
+    
+    def __repr__(self):
+        return "Désespoir"
+        
+        
+        
         
     
     
