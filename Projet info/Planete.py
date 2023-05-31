@@ -50,7 +50,11 @@ class DeckSurvie(Deck):
             SystemeD(7, 1),
             Riposte(8, 1),
             SixiemeSens(9, 1),
-            Hologramme(10, 3)
+            Hologramme(10, 3),
+            Portail(11, 3), 
+            Fausse_piste(12,3), 
+            Vortex(13, 2), 
+            
         ]
         self.shuffle()
 
@@ -385,7 +389,7 @@ class Vortex(Carte):
             print("Vos lieux défaussés sont : ", self.defausse)
             msg = f"Quelle carte voulez vous jouer? >>\n"
             val = int(input(msg))
-            joueur.defausseCarte(joueur, 0)
+            joueur.defausseCarte(0)
             joueur.pos = val 
 
         def description(self):
@@ -401,7 +405,7 @@ class Sacrifice(Carte):
         return "Sacrifice"
 
     def effet(self, joueur, creature): 
-        joueur.defausseCarte(joueur, 1)
+        joueur.defausseCarte(1)
         creature.useCard = 0
         joueur.cartes.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
