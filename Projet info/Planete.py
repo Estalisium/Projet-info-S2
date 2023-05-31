@@ -54,7 +54,7 @@ class DeckSurvie(Deck):
             Portail(11, 3), 
             Fausse_piste(12,3), 
             Vortex(13, 2), 
-            
+            Sacrifice (14, 1)
         ]
         self.shuffle()
 
@@ -404,13 +404,15 @@ class Sacrifice(Carte):
     def __repr__(self):
         return "Sacrifice"
 
-    def effet(self, joueur, creature): 
+    def effet(self, joueur): 
         joueur.defausseCarte(1)
-        creature.useCard = 0
+        joueur.jeu.creature.useCard = 0
         joueur.cartes.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1                
         
+    def description(self): 
+        return "Le joueur défausse une carte Lieu. Aucune carte Traque ne peut être jouée ce tour-ci 
     
  
 
@@ -438,12 +440,11 @@ class Virus(Carte):
     
     def __init__(self, c_id):
         super().__init__(c_id, 2)
-        
-    
+          
     def __repr__(self):
         return "Virus"
     
-    def effet(self, joueur, creature): 
+    def effet(self, creature): 
         msg = f"Placer le jeton Artémia : >>\n"
         creature.artemia = int(input(msg))
         
