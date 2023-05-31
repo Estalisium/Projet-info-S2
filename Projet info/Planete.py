@@ -74,23 +74,30 @@ class Carte(ABC):
     def description(self):
         ...
 
-        
-'''''''''''''''''''''''
+ 
+
+'''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''
 
 
 
 
-CARTES SURVIE 
+
+    CARTES SURVIE 
 
 
 
 
-'''''''''''''''''''''''
+
+'''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''
+
+
 
 class Detecteur(Carte):
-    """
-    Evite les effets du jeton Artémia
-    """
+
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
         self.phase = 3
@@ -112,9 +119,6 @@ class Detecteur(Carte):
 
 
 class Esquive(Carte):
-    """
-    Esquive les effets du jeton créature
-    """
 
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
@@ -137,9 +141,6 @@ class Esquive(Carte):
 
 
 class VolteFace(Carte):
-    """
-    Reprend en main la dernière carte Lieu jouée
-    """
 
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
@@ -159,9 +160,6 @@ class VolteFace(Carte):
 
 
 class Drone(Carte):
-    """
-    A la place d'utiliser le pouvoir de la carte Lieu, copie le pouvoir du Rover
-    """
 
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
@@ -188,9 +186,6 @@ class Drone(Carte):
 
 
 class Adrenaline(Carte):
-    """
-    Récupère 1 de volonté
-    """
 
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
@@ -210,9 +205,6 @@ class Adrenaline(Carte):
 
 
 class Amplificateur(Carte):
-    """
-    Retire le pion Balise de la Plage pour avancer immédiatement le pion secours de 1 case
-    """
 
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
@@ -395,12 +387,37 @@ class Vortex(Carte):
         return "Vortex"
     
     def effet(self, joueur): 
+        if len(self.defausse) <= 0:
+            print('Votre défausse est vide, vous ne pouvez pas utiliser cette carte')
+        else: 
+            joueur.cartes.remove(self)
+            joueur.jeu.DeckSurvie.defausser(self)
+            joueur.useCard -= 1        
+            print("Vos lieux défaussés sont : ", self.defausse)
+            msg = f"Quelle carte voulez vous jouer?\n"
+            val = int(input(msg))
+            joueur.defausseCarte(joueur, 0)
+            joueur.pos = val 
+
+        def description(self):
+            return "Elle permet d'échanger la carte Lieu jouée contre une carte Lieu de la défausse "    
+        
+      
+class Sacrifice(Carte): 
+    def __init__(self, c_id, phase):
+        super().__init__(c_id, phase)
+        self.phase = 1
+
+    def __repr__(self):
+        return "Sacrifice"
+
+    def effet(self, joueur, creature): 
+        joueur.defausseCarte(joueur, 1)
+        creature.useCard = 0
         joueur.cartes.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
-        joueur.useCard -= 1        
-
-
-
+        joueur.useCard -= 1                
+        
     
     
     
