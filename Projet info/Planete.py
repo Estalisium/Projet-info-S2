@@ -170,7 +170,7 @@ class Drone(Carte):
             if i not in joueur.cartes and i not in joueur.defausse:
                 lieuxsup.append(i)
         print("Vous pouvez rajouter dans votre main 1 lieu parmis ceux-ci:", lieuxsup)
-        msg = f"Quel lieu voulez vous rajouter à votre main ?\n"
+        msg = f"Quel lieu voulez vous rajouter à votre main ? >>\n"
         cartesup = int(input(msg))
         joueur.cartes.append(cartesup)
         joueur.useCard -= 1
@@ -309,7 +309,7 @@ class Hologramme(Carte):
             joueur.jeu.DeckSurvie.defausser(self)
             voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.creature.artemia)
             print("Vous pouvez déplacer le jeton Artémia sur un de ces lieux:", voisins)
-            msg = f"Sur quel lieu voulez-vous le mettre ?\n"
+            msg = f"Sur quel lieu voulez-vous le mettre ? >>\n"
             joueur.jeu.artemia = int(input(msg))
             joueur.useCard -= 1
             joueur.esquive = 1
@@ -338,7 +338,7 @@ class Portail(Carte):
             if joueur.jeu.board[joueur.pos][2] == 0: 
                 voisins_libre.append(voisins[i])
         print("Lieux adjacents dont le pouvoir peut être copié: ", voisins_libre)
-        msg = f"Quel lieu voulez-vous copier?\n"
+        msg = f"Quel lieu voulez-vous copier? >>\n"
         lieu = int(input(msg))
         joueur.jeu.board.activer_lieu(joueur.jeu.board, joueur, lieu)
 
@@ -358,7 +358,7 @@ class Fausse_Piste(Carte):
         joueur.jeu.DeckSurvie.defausser(self)
         voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.creature)
         print("Vous pouvez déplacer le jeton Créature sur un de ces lieux:", voisins)
-        msg = f"Sur quel lieu voulez-vous le mettre ?\n"
+        msg = f"Sur quel lieu voulez-vous le mettre ? >>\n"
         joueur.jeu.creature = int(input(msg))
         joueur.useCard -= 1
         joueur.esquive = 1
@@ -383,7 +383,7 @@ class Vortex(Carte):
             joueur.jeu.DeckSurvie.defausser(self)
             joueur.useCard -= 1        
             print("Vos lieux défaussés sont : ", self.defausse)
-            msg = f"Quelle carte voulez vous jouer?\n"
+            msg = f"Quelle carte voulez vous jouer? >>\n"
             val = int(input(msg))
             joueur.defausseCarte(joueur, 0)
             joueur.pos = val 
@@ -435,8 +435,34 @@ class Virus(Carte):
     def __init__(self, c_id, phase):
         super().__init__(c_id, 2)
         
-    def effet(self, joueur): 
+    def effet(self, joueur, creature): 
+        msg = f"Placer le jeton Artémia : >>\n"
+        creature.artemia = int(input(msg))
         
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
