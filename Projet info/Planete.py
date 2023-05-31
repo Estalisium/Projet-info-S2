@@ -328,7 +328,7 @@ class Hologramme(Carte):
             voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.creature.artemia)
             print("Vous pouvez déplacer le jeton Artémia sur un de ces lieux:", voisins)
             msg = f"Sur quel lieu voulez-vous le mettre ?\n"
-            joueur.jeu.creature.artemia = int(input(msg))
+            joueur.jeu.artemia = int(input(msg))
             joueur.useCard -= 1
             joueur.esquive = 1
         else:
@@ -337,6 +337,7 @@ class Hologramme(Carte):
     def description(self):
         return "Elle permet de déplacer le jeton Artémia sur un lieu adjacent"
 
+    
 class Portail(Carte):
     def __init__(self, c_id, phase):
         super().__init__(c_id, phase)
@@ -346,11 +347,68 @@ class Portail(Carte):
         return "Portail"
     
     def effet(self, joueur):
-        fdfkm
+        joueur.cartes.remove(self)
+        joueur.jeu.DeckSurvie.defausser(self)
+        joueur.useCard -= 1
+        voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.artemia)
+        voisins_libre = []
+        for i in range(len(voisins)): 
+            if joueur.jeu.board[joueur.pos][2] == 0: 
+                voisins_libre.append(voisins[i])
+        print("Lieux adjacents dont le pouvoir peut être copié: ", voisins_libre)
+        msg = f"Quel lieu voulez-vous copier?\n"
+        lieu = int(input(msg))
+        joueur.jeu.board.activer_lieu(joueur.jeu.board, joueur, lieu)
 
     def description(self):
         return "Elle permet de copier le pouvoir d'un lieu adjacent"
+        
+  
+class Fausse_Piste(Carte):
+    def __init__(self, c_id, phase):
+    super().__init__(c_id, phase)
+    self.phase = 3
+
+    def __repr__(self):
+        return "Fausse Piste "
     
+    def effet(self, joueur):
+        joueur.cartes.remove(self)
+        joueur.jeu.DeckSurvie.defausser(self)
+        voisins = joueur.jeu.board.voisin(joueur.jeu.board, joueur.jeu.creature)
+        print("Vous pouvez déplacer le jeton Créature sur un de ces lieux:", voisins)
+        msg = f"Sur quel lieu voulez-vous le mettre ?\n"
+        joueur.jeu.creature = int(input(msg))
+        joueur.useCard -= 1
+        joueur.esquive = 1
+
+    def description(self):
+        return "Elle permet de déplacer le jeton Créature sur un lieu adjacent"
+
+    
+class Vortex(Carte): 
+    def __init__(self, c_id, phase):
+    super().__init__(c_id, phase)
+    self.phase = 2
+
+    def __repr__(self):
+        return "Vortex"
+    
+    def effet(self, joueur): 
+        joueur.cartes.remove(self)
+        joueur.jeu.DeckSurvie.defausser(self)
+        joueur.useCard -= 1        
+
+
+
+    
+    
+    
+    
+    
+    
+
+
     
 class Lieu():
     """
