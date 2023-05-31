@@ -76,23 +76,23 @@ class Carte(ABC):
 
  
 
-'''''''''''''''''''''''''''''''
-'''''''''''''''''''''''''''''''
-'''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
 
 
 
 
 
-    CARTES SURVIE 
+         CARTES SURVIE 
 
 
 
 
 
-'''''''''''''''''''''''''''''''
-'''''''''''''''''''''''''''''''
-'''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
 
 
 
@@ -331,9 +331,9 @@ class Hologramme(Carte):
 
     
 class Portail(Carte):
+    
     def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 3
+        super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Portail"
@@ -358,8 +358,7 @@ class Portail(Carte):
   
 class Fausse_Piste(Carte):
     def __init__(self, c_id, phase):
-    super().__init__(c_id, phase)
-    self.phase = 3
+    super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Fausse Piste "
@@ -379,9 +378,9 @@ class Fausse_Piste(Carte):
 
     
 class Vortex(Carte): 
+    
     def __init__(self, c_id, phase):
-    super().__init__(c_id, phase)
-    self.phase = 2
+    super().__init__(c_id, 2)
 
     def __repr__(self):
         return "Vortex"
@@ -404,9 +403,9 @@ class Vortex(Carte):
         
       
 class Sacrifice(Carte): 
+    
     def __init__(self, c_id, phase):
-        super().__init__(c_id, phase)
-        self.phase = 1
+        super().__init__(c_id, 1)
 
     def __repr__(self):
         return "Sacrifice"
