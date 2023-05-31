@@ -440,6 +440,14 @@ class Virus(Carte):
         creature.artemia = int(input(msg))
         
     
+ class Hurlements(Carte):
+    
+     def __init__(self, c_id, phase):
+        super().__init__(c_id, 2)
+        
+        
+     def effet(self, joueur): 
+        
     
     
     
