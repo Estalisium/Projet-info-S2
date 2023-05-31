@@ -34,6 +34,7 @@ class Jeux():
                     crea = 1
         self.board = Plateau.Plateau()
         self.DeckSurvie = Planete.DeckSurvie()
+        self.DeckTraque = Planete.DeckTraque()
         self.players = []
         k=0
         for i in range(nbjoueurs):
