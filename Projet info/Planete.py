@@ -477,7 +477,7 @@ class Hurlements(Carte):
     def __repr__(self):
         return "Hurlements"
     
-     def effet(self, joueur): 
+     def effet(self, creature): 
         return 1
         
         
@@ -489,7 +489,22 @@ class Desespoir(Carte):
     def __repr__(self):
         return "Désespoir"
         
-        
+ class Reperage(Carte): 
+    
+    def __init__(self, c_id):
+        super().__init__(c_id, 1) 
+    
+    def __repr__(self): 
+        return "Repérage"
+    
+    def effet(self, creature): 
+        for joueur in creature.jeu.players: 
+            joueur.useCard = 0
+    
+    def description(self): 
+        return "Aucune carte Survie ne peut être jouée pour le reste du tour" 
+    
+    
         
         
     
