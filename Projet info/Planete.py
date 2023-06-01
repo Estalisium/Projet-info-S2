@@ -470,14 +470,13 @@ class Virus(Carte):
         
     
 class Hurlements(Carte):
-    
-     def __init__(self, c_id):
+    def __init__(self, c_id):
         super().__init__(c_id, 2)
-        
+     
     def __repr__(self):
         return "Hurlements"
     
-     def effet(self, joueur): 
+    def effet(self, joueur):
         return 1
         
         
@@ -488,41 +487,6 @@ class Desespoir(Carte):
     
     def __repr__(self):
         return "Désespoir"
-        
-        
-        
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 
     
 class Lieu():
