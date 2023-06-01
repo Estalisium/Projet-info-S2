@@ -12,7 +12,7 @@ class Joueur():
         self.nom = nom
         self.sante = 3
         self.pos = None
-        self.cartes = [0,1,2,3,4]
+        self.cartes = [0, 1, 2, 3, 4]
         self.survie = []
         self.useCard = 1
         self.River = False
@@ -35,7 +35,7 @@ class Joueur():
                         carte.effet(self)
 
     def __str__(self):
-        return 'Joueur ' + str(self.id) + ' : ' + self.nom
+        return 'Joueur ' + str(self.id) + ' : ' + self.nom + ', Volonté : ' + str(self.sante)
 
     def reprendre_toute_defausse(self):
         for carte in self.defausse:
@@ -50,7 +50,7 @@ class Joueur():
         self.jeu.traque.avancer()
 
     def __repr__(self):
-        return 'Joueur ' + str(self.id) + ' : ' + self.nom
+        return 'Joueur ' + str(self.id) + ' : ' + self.nom + ', Volonté : ' + str(self.sante)
 
     def choisir_lieu(self):
         if len(self.cartes) == 0:
@@ -107,6 +107,7 @@ class Joueur():
         if self.esquive == 1:
             self.esquive = 0
             print("Jeton créature évité")
+            self.jeu.board.activer_lieu(self, self.pos)
             return 1
         else:
             if self.pos == 0:
@@ -123,9 +124,9 @@ class Joueur():
         if self.esquive == 1:
             self.esquive = 0
             print("Jeton artemia évité")
+            self.jeu.board.activer_lieu(self, self.pos)
             return 1
         else:
-            self.defausseCarte(1)
             self.defausseCarte(1)
 
     def defausseCarte(self, mode):
@@ -175,13 +176,14 @@ class Creature():
             return 'Traque'
 
     def placer_jetons(self):
+        print(self.jetons)
         for jeton in self.jetons:
             val = -1
             while val < 0:
                 print("Vous avez un jeton " + self.CaraJeton(jeton))
                 print('Voici la défausse des joueurs')
                 for player in self.jeu.players:
-                    print(player, player.defausse)
+                    print(player, ':', player.defausse)
                 msg = f"Où voulez vous le placer ?\n >> "
                 val = int(input(msg))
                 if -1 < val < 9:
@@ -193,6 +195,15 @@ class Creature():
                 else:
                     print('Veuillez saisir un lieu valide')
                     val = -1
+
+    def jouerCarte(self, phase):
+        if self.useCard > 0:
+            for carte in self.traque:
+                if carte.phase == phase:
+                    msg = f"Voulez vous jouer la carte {carte}?\n{carte.description()}\nOui : 0, Non : 1\n>> "
+                    val = int(input(msg))
+                    if val == 0:
+                        carte.effet(self)
 
 
 if __name__ == "__main__":
