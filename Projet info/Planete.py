@@ -10,7 +10,7 @@ import random
 
 class Deck(ABC):
     """
-    Fonction représentant le paquet de cartes, la pioche en quelque sorte
+    Classe représentant un paquet de cartes, la pioche en quelque sorte
     """
 
     def __init__(self):
@@ -38,6 +38,9 @@ class Deck(ABC):
 
 
 class DeckSurvie(Deck):
+    """
+    Classe représentant le deck survie
+    """
     def __init__(self):
         super().__init__()
         self.cards = [
@@ -64,7 +67,6 @@ class Carte(ABC):
     """
     Classe regroupant tous les types de cartes.
     Classe abstraite, il n'existe que des cartes spécifiques
-    surtout utile pour l'IHM
     """
 
     def __init__(self, c_id, phase):
