@@ -13,7 +13,7 @@ class TestJoueur(unittest.TestCase):
         Test de l'initialisation
         """
         jeu = Jeux.Jeux(2, ['Marie', 'Alix'], [1, 'Alix'])
-        Marie = Joueur.Joueur(1, 'Marie', jeu)
+        Marie = jeu.players[0]
         self.assertEqual(Marie.jeu, jeu)
         self.assertEqual(Marie.nom, 'Marie')
         self.assertEqual(len(Marie.survie), 1)
@@ -28,12 +28,12 @@ class TestJoueur(unittest.TestCase):
         Marie.pos = 2
         Marie.defausseCarte(0)
         self.assertEqual(Marie.defausse, [2])
-        self.assertFalse(2 not in Marie.cartes)
+        self.assertTrue(2 not in Marie.cartes)
         Marie.esquive = 1
-        Marie.pos = 2
+        Marie.pos = 3
         Marie.defausseCarte(0)
-        self.assertEqual(Marie.defausse, [])
-        self.assertFalse(2 in Marie.cartes)
+        self.assertTrue(3 in Marie.cartes)
+        self.assertEqual(Marie.defausse, [2])
 
     def test_lacher_prise(self):
         """
