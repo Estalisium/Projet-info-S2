@@ -469,7 +469,7 @@ class Virus(Carte):
         creature.artemia = int(input(msg))
         
     
- class Hurlements(Carte):
+class Hurlements(Carte):
     
      def __init__(self, c_id):
         super().__init__(c_id, 2)
