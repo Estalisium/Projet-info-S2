@@ -41,20 +41,21 @@ class DeckSurvie(Deck):
     def __init__(self):
         super().__init__()
         self.cards = [
-            Detecteur(1, 3),
-            Esquive(2, 3),
-            VolteFace(3, 4),
-            Drone(4, 3),
-            Adrenaline(5, 1),
-            Amplificateur(6, 4),
-            SystemeD(7, 1),
-            Riposte(8, 1),
-            SixiemeSens(9, 1),
-            Hologramme(10, 3),
-            Portail(11, 3), 
-            Fausse_piste(12,3), 
-            Vortex(13, 2), 
-            Sacrifice (14, 1)
+            Detecteur(1),
+            Esquive(2),
+            VolteFace(3),
+            Drone(4),
+            Adrenaline(5),
+            Amplificateur(6),
+            SystemeD(7),
+            Riposte(8),
+            SixiemeSens(9),
+            Hologramme(10),
+            Portail(11),
+            Fausse_Piste(12),
+            Portail(13),
+            Vortex(14),
+            Sacrifice(15)
         ]
         self.shuffle()
 
