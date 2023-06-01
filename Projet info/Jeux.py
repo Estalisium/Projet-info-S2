@@ -2,7 +2,7 @@ import Plateau
 import Joueur
 import Planete
 import Token
-
+import sqlite3
 
 class Jeux():
     """
@@ -46,8 +46,13 @@ class Jeux():
                 self.players.append(Joueur.Joueur(i, nomjoueurs[i], self))
                 self.players[k].pick()
                 k += 1
-        self.traque = Token.TraqueToken()
-        self.secours = Token.SecoursToken()
+        con = sqlite3.connect('Conditions_de_victoire.db')
+        cur = con.cursor()
+        query = "SELECT max_traque, max_secours FROM Conditions_de_victoire WHERE nombre_j = ?"
+        cur.execute(query, (nbjoueurs,)) #Permet d'obtenir les conditions de victoires grâce à celles préalablement rentrées dans la base de donnée générée par Database.py
+        maxs = cur.fetchone()
+        self.traque = Token.TraqueToken(maxs[0])
+        self.secours = Token.SecoursToken(maxs[1])
         self.fin = 0
         if not creature:  # En mettant ce test la partie ne commence pas lorsqu'on veut juste effectuer un test
             self.begin()
