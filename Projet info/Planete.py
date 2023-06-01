@@ -101,7 +101,9 @@ class Carte(ABC):
 
 
 class Detecteur(Carte):
-
+    """
+    Evite les effets du jeton Artémia
+    """
     def __init__(self, c_id):
         super().__init__(c_id, 3)
 
@@ -112,7 +114,7 @@ class Detecteur(Carte):
         if joueur.jeu.board[joueur.pos][2] == 2:
             joueur.esquive = 1
             joueur.useCard -= 1
-            joueur.cartes.remove(self)
+            joueur.survie.remove(self)
             joueur.jeu.DeckSurvie.defausser(self)
         else:
             print("Votre lieu n'est pas ciblé par le jeton artémia, cette carte ne peut être jouée")
@@ -122,6 +124,9 @@ class Detecteur(Carte):
 
 
 class Esquive(Carte):
+    """
+    Esquive les effets du jeton créature
+    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 3)
@@ -133,7 +138,7 @@ class Esquive(Carte):
         if joueur.jeu.board[joueur.pos][2] == 1:
             joueur.esquive = 1
             joueur.useCard -= 1
-            joueur.cartes.remove(self)
+            joueur.survie.remove(self)
             joueur.jeu.DeckSurvie.defausser(self)
         else:
             print("Votre lieu n'est pas ciblé par le jeton créature, cette carte ne peut être jouée")
@@ -143,6 +148,9 @@ class Esquive(Carte):
 
 
 class VolteFace(Carte):
+    """
+    Reprend en main la dernière carte Lieu jouée
+    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 4)
@@ -151,7 +159,7 @@ class VolteFace(Carte):
         return "Volte Face"
 
     def effet(self, joueur):
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1
         joueur.esquive = 1
@@ -161,6 +169,9 @@ class VolteFace(Carte):
 
 
 class Drone(Carte):
+    """
+    A la place d'utiliser le pouvoir de la carte Lieu, copie le pouvoir du Rover
+    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 3)
@@ -174,11 +185,11 @@ class Drone(Carte):
             if i not in joueur.cartes and i not in joueur.defausse:
                 lieuxsup.append(i)
         print("Vous pouvez rajouter dans votre main 1 lieu parmis ceux-ci:", lieuxsup)
-        msg = f"Quel lieu voulez vous rajouter à votre main ? >>\n"
+        msg = f"Quel lieu voulez vous rajouter à votre main ?\n"
         cartesup = int(input(msg))
         joueur.cartes.append(cartesup)
         joueur.useCard -= 1
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
 
     def description(self):
@@ -186,6 +197,9 @@ class Drone(Carte):
 
 
 class Adrenaline(Carte):
+    """
+    Récupère 1 de volonté
+    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 1)
@@ -196,7 +210,7 @@ class Adrenaline(Carte):
     def effet(self, joueur):
         joueur.sante += 1
         joueur.useCard -= 1
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
 
     def description(self):
@@ -204,6 +218,9 @@ class Adrenaline(Carte):
 
 
 class Amplificateur(Carte):
+    """
+    Retire le pion Balise de la Plage pour avancer immédiatement le pion secours de 1 case
+    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 4)
@@ -213,7 +230,7 @@ class Amplificateur(Carte):
 
     def effet(self, joueur):
         if Plage.balise:
-            joueur.cartes.remove(self)
+            joueur.survie.remove(self)
             joueur.jeu.DeckSurvie.defausser(self)
             joueur.useCard -= 1
             print("Vous retirez la balise de la plage, le jeton secours avance de 1")
@@ -240,7 +257,7 @@ class SystemeD(Carte):
         if Plage.played:
             print("Vous ne pouvez pas jouer cette carte car la balise est pas sur la plage")
         else:
-            joueur.cartes.remove(self)
+            joueur.survie.remove(self)
             joueur.jeu.DeckSurvie.defausser(self)
             print("Vous placez la balise sur la plage")
             Plage.balise = True
@@ -262,14 +279,15 @@ class Riposte(Carte):
         return "Riposte"
 
     def effet(self, joueur):
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1
         random.shuffle(joueur.jeu.creature.traque)
         c0 = joueur.jeu.creature.traque[0]
         c1 = joueur.jeu.creature.traque[1]
         joueur.jeu.creature.traque = [joueur.jeu.creature.traque[2]]
-        # Placer sous la pioche les 2 cartes Todo
+        joueur.jeu.DeckTraque.cards.append(c0)
+        joueur.jeu.DeckTraque.cards.append(c1)
 
     def description(self):
         return "Elle permet de piocher 2 cartes traques dans la main de la créature et les mettre sous la pioche"
@@ -287,7 +305,7 @@ class SixiemeSens(Carte):
         return "Sixième Sens"
 
     def effet(self, joueur):
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1
         joueur.reprendreDefausse()
@@ -300,21 +318,22 @@ class SixiemeSens(Carte):
 class Hologramme(Carte):
     """
     Déplacez le jeton Artémia sur un lieu adjacent
-    """    
+    """
+
     def __init__(self, c_id):
         super().__init__(c_id, 3)
-    
+
     def __repr__(self):
         return "Hologramme"
 
     def effet(self, joueur):
         if len(joueur.jeu.creature.jetons) > 2 and joueur.jeu.creature.jetons[1] == 2:
-            joueur.cartes.remove(self)
+            joueur.survie.remove(self)
             joueur.jeu.DeckSurvie.defausser(self)
-            voisins = joueur.jeu.voisin(joueur.jeu.creature.artemia)
+            voisins = joueur.jeu.board.voisin(joueur.jeu.creature.artemia)
             print("Vous pouvez déplacer le jeton Artémia sur un de ces lieux:", voisins)
-            msg = f"Sur quel lieu voulez-vous le mettre ? >>\n"
-            joueur.jeu.artemia = int(input(msg))
+            msg = f"Sur quel lieu voulez-vous le mettre ?\n"
+            joueur.jeu.creature.artemia = int(input(msg))
             joueur.useCard -= 1
             joueur.esquive = 1
         else:
@@ -323,96 +342,94 @@ class Hologramme(Carte):
     def description(self):
         return "Elle permet de déplacer le jeton Artémia sur un lieu adjacent"
 
-    
+
 class Portail(Carte):
-    
     def __init__(self, c_id):
         super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Portail"
-    
+
     def effet(self, joueur):
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
         joueur.useCard -= 1
-        voisins = joueur.jeu.voisin(joueur.jeu.board, joueur.pos)
+        voisins = joueur.jeu.board.voisin(joueur.pos)
         voisins_libre = []
-        for i in range(len(voisins)): 
-            if joueur.jeu.board[joueur.pos][2] == 0: 
-                voisins_libre.append(voisins[i])
+        for voisin in voisins:
+            if joueur.jeu.board[voisin][2] == 0:
+                voisins_libre.append(voisin)
         print("Lieux adjacents dont le pouvoir peut être copié: ", voisins_libre)
-        msg = f"Quel lieu voulez-vous copier? >>\n"
+        msg = f"Quel lieu voulez-vous copier?\n"
         lieu = int(input(msg))
         joueur.jeu.board.activer_lieu(joueur.jeu.board, joueur, lieu)
 
     def description(self):
         return "Elle permet de copier le pouvoir d'un lieu adjacent"
-        
-  
+
+
 class Fausse_Piste(Carte):
     def __init__(self, c_id):
-    super().__init__(c_id, 3)
+        super().__init__(c_id, 3)
 
     def __repr__(self):
         return "Fausse Piste "
-    
+
     def effet(self, joueur):
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
-        voisins = joueur.jeu.board.voisin(joueur.jeu.creature)
+        voisins = joueur.jeu.board.voisin(joueur.jeu.creature.pos)
         print("Vous pouvez déplacer le jeton Créature sur un de ces lieux:", voisins)
-        msg = f"Sur quel lieu voulez-vous le mettre ? >>\n"
-        joueur.jeu.creature = int(input(msg))
+        msg = f"Sur quel lieu voulez-vous le mettre ?\n"
+        joueur.jeu.creature.pos = int(input(msg))
         joueur.useCard -= 1
         joueur.esquive = 1
 
     def description(self):
         return "Elle permet de déplacer le jeton Créature sur un lieu adjacent"
 
-    
-class Vortex(Carte): 
-    
+
+class Vortex(Carte):
     def __init__(self, c_id):
-    super().__init__(c_id, 2)
+        super().__init__(c_id, 2)
 
     def __repr__(self):
         return "Vortex"
-    
-    def effet(self, joueur): 
-        if len(self.defausse) <= 0:
-            print('Votre défausse est vide, vous ne pouvez pas utiliser cette carte')
-        else: 
-            joueur.cartes.remove(self)
-            joueur.jeu.DeckSurvie.defausser(self)
-            joueur.useCard -= 1        
-            print("Vos lieux défaussés sont : ", self.defausse)
-            msg = f"Quelle carte voulez vous jouer? >>\n"
-            val = int(input(msg))
-            joueur.defausseCarte(0)
-            joueur.pos = val 
 
-        def description(self):
-            return "Elle permet d'échanger la carte Lieu jouée contre une carte Lieu de la défausse "    
-        
-      
-class Sacrifice(Carte): 
-    
+    def effet(self, joueur):
+        if len(joueur.defausse) <= 0:
+            print('Votre défausse est vide, vous ne pouvez pas utiliser cette carte')
+        else:
+            joueur.survie.remove(self)
+            joueur.jeu.DeckSurvie.defausser(self)
+            joueur.useCard -= 1
+            print("Vos lieux défaussés sont : ", joueur.defausse)
+            msg = f"Quelle carte voulez vous jouer?\n"
+            val = int(input(msg))
+            joueur.defausseCarte(joueur, 0)
+            joueur.pos = val
+
+    def description(self):
+        return "Elle permet d'échanger la carte Lieu jouée contre une carte Lieu de la défausse "
+
+
+class Sacrifice(Carte):
+
     def __init__(self, c_id):
         super().__init__(c_id, 1)
 
     def __repr__(self):
         return "Sacrifice"
 
-    def effet(self, joueur): 
+    def effet(self, joueur):
         joueur.defausseCarte(1)
         joueur.jeu.creature.useCard = 0
-        joueur.cartes.remove(self)
+        joueur.survie.remove(self)
         joueur.jeu.DeckSurvie.defausser(self)
-        joueur.useCard -= 1                
-        
-    def description(self): 
-        return "Le joueur défausse une carte Lieu. Aucune carte Traque ne peut être jouée ce tour-ci 
+        joueur.useCard -= 1
+
+    def description(self):
+        return "Elle permet si vous défaussez une carte lieu d'empêcher la créature de jouer une carte traque"
     
  
 
