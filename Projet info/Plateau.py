@@ -5,7 +5,7 @@ import Planete
 
 class Plateau(list):
     """
-    Reprprésente le plateau de jeu
+    Représente le plateau de jeu
     Gère la correspondance entre la position du joueur et la carte lieu associée
     """
     marqueur_vide = 0
@@ -93,4 +93,3 @@ if __name__ == '__main__':
     test.placer_joueur(3)
     test.placer_creature(5, 2)
     print(test)
-    
