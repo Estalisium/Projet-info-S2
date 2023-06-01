@@ -1,11 +1,5 @@
 import sqlite3
 
-con = sqlite3.connect('cartes.db')
-cur = con.cursor()
-print('Opened database successfully')
-
-import sqlite3
-
 con = sqlite3.connect('Conditions_de_victoire.db')
 cur = con.cursor()
 print('Opened database successfully')
