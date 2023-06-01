@@ -9,7 +9,7 @@ class Jeux():
     Classe principale contenant tout le déroulement de la partie
     """
 
-    def __init__(self, nbjoueurs, nomjoueurs):
+    def __init__(self, nbjoueurs, nomjoueurs, creature=None):
         """
         :param nbjoueurs: int, compris entre 2 et 7
         :param nomjoueurs: [str], doit être de la même longueur que nbjoueur contient les noms des Joueurs
@@ -22,30 +22,35 @@ class Jeux():
         """
         if nbjoueurs > 7 or nbjoueurs < 2 or nbjoueurs != len(nomjoueurs):
             raise ValueError
-        crea = 0  # Permet de continuer la requête tant qu'une créature n'est pas choisie
-        while crea == 0:
-            msg = f"Qui sera la créature ?\n >> "
-            val = str(input(msg))
-            if val not in nomjoueurs:
-                print("Cette personne n'est pas dans la partie")
-            for i in range(nbjoueurs):
-                if nomjoueurs[i] == val:
-                    self.creature = Joueur.Creature(i, nomjoueurs[i], self)
-                    crea = 1
+        if creature:  # Permet de réaliser les tests plus facilement
+            self.creature = Joueur.Creature(creature[0], creature[1], self)
+        else:
+            crea = 0  # Permet de continuer la requête tant qu'une créature n'est pas choisie
+            while crea == 0:
+                msg = f"Qui sera la créature ?\n >> "
+                val = str(input(msg))
+                if val not in nomjoueurs:
+                    print("Cette personne n'est pas dans la partie")
+                for i in range(nbjoueurs):
+                    if nomjoueurs[i] == val:
+                        self.creature = Joueur.Creature(i, nomjoueurs[i], self)
+                        crea = 1
         self.board = Plateau.Plateau()
         self.DeckSurvie = Planete.DeckSurvie()
         self.DeckTraque = Planete.DeckTraque()
         self.players = []
-        k=0
+        self.IHM = False
+        k = 0
         for i in range(nbjoueurs):
             if i != self.creature.id:
                 self.players.append(Joueur.Joueur(i, nomjoueurs[i], self))
                 self.players[k].pick()
-                k+=1
+                k += 1
         self.traque = Token.TraqueToken()
         self.secours = Token.SecoursToken()
         self.fin = 0
-        self.begin()
+        if not creature:  # En mettant ce test la partie ne commence pas lorsqu'on veut juste effectuer un test
+            self.begin()
 
     def begin(self):
         """
@@ -66,7 +71,8 @@ class Jeux():
         Boucle principale du jeu, continue jusqu'à ce qu'une condition de victoire soit atteinte (fin = 1)
         """
         while self.fin == 0:
-            self.board[3][3].played = False
+            self.board[3][3].played = False  # reset de la Plage
+            self.board[7][3].played = False  # reset de l'Epave
             self.creature.eat = 0
             self.creature.useCard = 1
             for joueur in self.players:
@@ -100,6 +106,9 @@ class Jeux():
         Résolution des lieux joueur par joueur
         """
         print(f"Le jeton Créature se situe sur le lieu {self.creature.pos}")
+        if len(self.creature.jetons) > 1:
+            if self.creature.jetons[1] == 2:
+                print(f"Le jeton Artemia se situe sur le lieu {self.creature.artemia}")
         for player in self.players:
             player.jouerCarte(3)
             if player.River:
@@ -138,6 +147,11 @@ class Jeux():
         print("Fin du tour")
 
     def check_victory(self):
+        print(f"Le jeton traque est à {self.traque.statut}/{self.traque.max} et le jeton secours à {self.secours.statut}/{self.secours.max}")
+        if self.secours.statut%2 == 1:
+            self.creature.jetons.append(2)
+        else:
+            self.creature.jetons = [1]
         if self.traque.max == self.traque.statut:
             print(self.traque.statut)
             print('Victoire de la créature')
