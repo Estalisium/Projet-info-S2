@@ -58,6 +58,18 @@ class DeckSurvie(Deck):
         ]
         self.shuffle()
 
+class DeckTraque(Deck):
+    def __init__(self):
+        super().__init__()
+        self.cards = [
+            Virus(1, 2),
+            Hurlements(2, 2),
+            Desespoir(3, 1),
+            Reperage(4, 1),
+         
+        ]
+        self.shuffle()
+        
 
 class Carte(ABC):
     """
@@ -88,16 +100,19 @@ class Carte(ABC):
 
 
 
+
+
          CARTES SURVIE 
 
 
 
 
 
-'''''''''''''''''''''''''''''''''
-'''''''''''''''''''''''''''''''''
-'''''''''''''''''''''''''''''''''
 
+
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
 
 
 class Detecteur(Carte):
@@ -120,6 +135,7 @@ class Detecteur(Carte):
     def description(self):
         return "Elle permet d'éviter les effets du jeton Artémia"
 
+    
 
 class Esquive(Carte):
 
@@ -142,6 +158,7 @@ class Esquive(Carte):
         return "Elle permet d'éviter les effets du jeton créature"
 
 
+    
 class VolteFace(Carte):
 
     def __init__(self, c_id):
@@ -160,6 +177,7 @@ class VolteFace(Carte):
         return "Elle permet de reprendre en main la carte lieu jouée à ce tour"
 
 
+    
 class Drone(Carte):
 
     def __init__(self, c_id):
@@ -184,6 +202,7 @@ class Drone(Carte):
     def description(self):
         return "Elle permet d'utiliser le pouvoir du rover plutôt que celui du lieu actuel"
 
+    
 
 class Adrenaline(Carte):
 
@@ -203,6 +222,7 @@ class Adrenaline(Carte):
         return "Elle permet de récupérer 1 de volonté"
 
 
+    
 class Amplificateur(Carte):
 
     def __init__(self, c_id):
@@ -224,11 +244,9 @@ class Amplificateur(Carte):
     def description(self):
         return "Elle permet d'enlever la balise de la plage et donc d'avancer le jeton secours de 1"
 
+    
 
 class SystemeD(Carte):
-    """
-    Place le pion Balise sur la place
-    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 1)
@@ -250,10 +268,8 @@ class SystemeD(Carte):
         return "Elle permet de placer la balise sur la plage"
 
 
+    
 class Riposte(Carte):
-    """
-    Tire 2 cartes Traque au hasard de la main de la Créature et les place sous la pioche Traque
-    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 1)
@@ -275,10 +291,8 @@ class Riposte(Carte):
         return "Elle permet de piocher 2 cartes traques dans la main de la créature et les mettre sous la pioche"
 
 
+    
 class SixiemeSens(Carte):
-    """
-    Reprend en main 2 cartes Lieu de la défausse
-    """
 
     def __init__(self, c_id):
         super().__init__(c_id, 1)
@@ -296,11 +310,10 @@ class SixiemeSens(Carte):
     def description(self):
         return "Elle permet de reprendre en main 2 cartes présente dans votre défausse"
 
+    
 
 class Hologramme(Carte):
-    """
-    Déplacez le jeton Artémia sur un lieu adjacent
-    """    
+    
     def __init__(self, c_id):
         super().__init__(c_id, 3)
     
@@ -323,6 +336,7 @@ class Hologramme(Carte):
     def description(self):
         return "Elle permet de déplacer le jeton Artémia sur un lieu adjacent"
 
+    
     
 class Portail(Carte):
     
@@ -348,7 +362,8 @@ class Portail(Carte):
 
     def description(self):
         return "Elle permet de copier le pouvoir d'un lieu adjacent"
-        
+    
+    
   
 class Fausse_Piste(Carte):
     def __init__(self, c_id):
@@ -370,6 +385,7 @@ class Fausse_Piste(Carte):
     def description(self):
         return "Elle permet de déplacer le jeton Créature sur un lieu adjacent"
 
+    
     
 class Vortex(Carte): 
     
@@ -395,7 +411,8 @@ class Vortex(Carte):
         def description(self):
             return "Elle permet d'échanger la carte Lieu jouée contre une carte Lieu de la défausse "    
         
-      
+   
+
 class Sacrifice(Carte): 
     
     def __init__(self, c_id):
@@ -424,17 +441,20 @@ class Sacrifice(Carte):
 
 
 
+
+
          CARTES TRAQUE 
 
 
 
 
 
+
+
 '''''''''''''''''''''''''''''''''
 '''''''''''''''''''''''''''''''''
 '''''''''''''''''''''''''''''''''
 
-    
     
 class Virus(Carte): 
     
@@ -445,23 +465,34 @@ class Virus(Carte):
         return "Virus"
     
     def effet(self, creature): 
+        creature.traque.remove(self)
+        creature.jeu.DeckTraque.defausser(self)
+        creature.useCard -= 1  
         msg = f"Placer le jeton Artémia : >>\n"
         creature.artemia = int(input(msg))
         
+    def description(self): 
+        return " Elle permet de choisir deux lieux adjacents qui seront affectés par le jeton Artémia"
     
+ 
  class Hurlements(Carte):
     
      def __init__(self, c_id):
-        super().__init__(c_id, 2)
-        
+        super().__init__(c_id, 2)       
      
     def __repr__(self):
         return "Hurlements"
     
-     def effet(self, joueur): 
+     def effet(self, creature): 
+        creature.traque.remove(self)
+        creature.jeu.DeckTraque.defausser(self)
+        creature.useCard -= 1  
         
-        
-        
+     def description(self): 
+        return " La créature a un jeton cible. Chaque traqué présent sur le lieu ciblé doit défausser 2 cartes Lieux, ou perdre 1 de Volonté "
+  
+
+
 class Desespoir(Carte):
     
     def __init__(self, c_id):
@@ -469,10 +500,53 @@ class Desespoir(Carte):
     
     def __repr__(self):
         return "Désespoir"
+    
+    def effet(self, creature):
+        creature.traque.remove(self)
+        creature.jeu.DeckTraque.defausser(self)
+        creature.useCard -= 1  
+        for joueur in creature.jeu.players: 
+            joueur.useCard = 0
+    
+    def description(self):
+        return "Aucune carte Survie ne peut être jouée pour le reste du tour"
+    
+
+class Reperage(Carte): 
+    
+    def __init__(self, c_id):
+        super().__init__(c_id, 1)
+    
+    def __repr__(self): 
+        return "Repérage"
+    
+    def effet(self, creature):
+        creature.traque.remove(self)
+        creature.jeu.DeckTraque.defausser(self)
+        creature.useCard = 2  
+        
+    def description(self): 
+        return "La créature peut jouer deux autres cartes Traque pendant ce tour"
+      
         
         
-        
-        
+ class Zone_interdite(Carte): 
+    
+    def __init__(self, c_id):
+        super().__init__(c_id, 2)
+    
+    def __repr__(self): 
+        return "Zone interdite"    
+    
+    def effet(self, creature): 
+        creature.traque.remove(self)
+        creature.jeu.DeckTraque.defausser(self)
+        creature.useCard -=1
+        for joueur in creature.jeu.players: 
+            joueur.defausseCarte(1)
+    
+    def description(self): 
+        return " Les Traqués défaussent tous une carte Lieu"
     
     
     
