@@ -62,6 +62,17 @@ class DeckSurvie(Deck):
         ]
         self.shuffle()
 
+        
+class DeckTraque(Deck):
+    def __init__(self):
+        super().__init__()
+#        self.cards = [
+#            Desepoir(1),
+#            Hurlements(2),
+#            Virus(3)
+#        ]
+        self.shuffle()
+        
 
 class Carte(ABC):
     """
@@ -487,7 +498,29 @@ class Desespoir(Carte):
     
     def __repr__(self):
         return "Désespoir"
+    
+    def effet(self, creature):
+        return 1
 
+    
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+
+
+
+
+
+         CARTES LIEUX
+
+
+
+
+
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''
+    
     
 class Lieu():
     """
